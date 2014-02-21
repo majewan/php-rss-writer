@@ -9,6 +9,7 @@ class Feed implements \Suin\RSSWriter\FeedInterface
 {
 	/** @var \Suin\RSSWriter\ChannelInterface[] */
 	protected $channels = array();
+  protected $namespaces = array();
 
 	/**
 	 * Add channel
@@ -20,6 +21,17 @@ class Feed implements \Suin\RSSWriter\FeedInterface
 		$this->channels[] = $channel;
 		return $this;
 	}
+
+	/**
+	 * Add Extra Namespace support
+	 * @param NameSpaceURI
+	 * @param QualifiedName
+	 * @return $thisJ
+	 */
+	public function addNamespace(string namespaceURI,string qualifiedName)
+  {
+    $this->namespaces[] = array('namespaceURI' => namespaceURI,'qualifiedName' => qualifiedName);
+  }
 
     /**
      * Render XML
@@ -33,7 +45,9 @@ class Feed implements \Suin\RSSWriter\FeedInterface
         $rss = $xml->createElement('rss');
         $rss->setAttribute('version', '2.0');
         $xml->appendChild($rss);
-
+    foreach ($this->namespaces as $namespace){
+      $xml->createAttributeNS($namespace['namespaceURI'],$namespace['qualifiedName'])
+    }
 		foreach ($this->channels as $channel) {
             $channel->buildXML($xml->documentElement);
 		}

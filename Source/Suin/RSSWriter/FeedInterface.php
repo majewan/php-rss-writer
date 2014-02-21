@@ -14,6 +14,14 @@ interface FeedInterface
 	public function addChannel(ChannelInterface $channel);
 
 	/**
+	 * Add Extra Namespace support
+	 * @param NameSpaceURI
+	 * @param QualifiedName
+	 * @return $thisJ
+	 */
+	public function addNamespace(string namespaceURI,string qualifiedName);
+
+	/**
 	 * Render XML
 	 * @return string
 	 */
