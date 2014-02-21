@@ -19,7 +19,7 @@ interface FeedInterface
 	 * @param QualifiedName
 	 * @return $thisJ
 	 */
-	public function addNamespace(string $namespaceURI,string $qualifiedName);
+	public function addNamespace(\string $namespaceURI,\string $qualifiedName);
 
 	/**
 	 * Render XML
