@@ -28,9 +28,9 @@ class Feed implements \Suin\RSSWriter\FeedInterface
 	 * @param QualifiedName
 	 * @return $thisJ
 	 */
-	public function addNamespace(string namespaceURI,string qualifiedName)
+	public function addNamespace(string $namespaceURI,string $qualifiedName)
   {
-    $this->namespaces[] = array('namespaceURI' => namespaceURI,'qualifiedName' => qualifiedName);
+    $this->namespaces[] = array('namespaceURI' => $namespaceURI,'qualifiedName' => $qualifiedName);
   }
 
     /**
