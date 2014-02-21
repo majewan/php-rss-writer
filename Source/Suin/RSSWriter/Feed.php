@@ -46,7 +46,7 @@ class Feed implements \Suin\RSSWriter\FeedInterface
         $rss->setAttribute('version', '2.0');
         $xml->appendChild($rss);
     foreach ($this->namespaces as $namespace){
-      $xml->createAttributeNS($namespace['namespaceURI'],$namespace['qualifiedName'])
+      $xml->createAttributeNS($namespace['namespaceURI'],$namespace['qualifiedName']);
     }
 		foreach ($this->channels as $channel) {
             $channel->buildXML($xml->documentElement);
