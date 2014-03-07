@@ -10,6 +10,7 @@ class Feed implements \Suin\RSSWriter\FeedInterface
 	/** @var \Suin\RSSWriter\ChannelInterface[] */
 	protected $channels = array();
   protected $namespaces = array();
+  public $escapeTextWithCDATA = false;
 
 	/**
 	 * Add channel

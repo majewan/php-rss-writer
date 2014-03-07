@@ -23,6 +23,8 @@ class Item implements \Suin\RSSWriter\ItemInterface
     /** @var XmlElementInterface[] */
     protected $childs = array();
 
+  public $_channel;
+
 	/**
 	 * Set item title
 	 * @param string $title
@@ -100,6 +102,7 @@ class Item implements \Suin\RSSWriter\ItemInterface
 	public function appendTo(ChannelInterface $channel)
 	{
 		$channel->addChild($this);
+    $this->_channel = $channel;
 		return $this;
 	}
 
@@ -111,9 +114,17 @@ class Item implements \Suin\RSSWriter\ItemInterface
 	{
         $doc = $element->ownerDocument;
         $element->appendChild($item = $doc->createElement('item'));
-        $item->appendChild($doc->createElement('title', htmlspecialchars($this->title)));
+        $item->appendChild($title = $doc->createElement('title'));
         $item->appendChild($doc->createElement('link', htmlspecialchars($this->url)));
-        $item->appendChild($doc->createElement('description', htmlspecialchars($this->description)));
+        $item->appendChild($description = $doc->createElement('description'));
+
+        if($this->_channel->_feed->escapeTextWithCDATA){
+          $title->appendChild(new \DOMCdataSection(htmlspecialchars($this->title)));
+          $description->appendChild(new \DOMCdataSection(htmlspecialchars($this->description)));
+        }else{
+          $title->appendChild(new \DOMText(htmlspecialchars($this->title)));
+          $description->appendChild(new \DOMText(htmlspecialchars($this->description)));
+        }
 
 		foreach ( $this->categories as $category )
 		{
@@ -149,5 +160,6 @@ class Item implements \Suin\RSSWriter\ItemInterface
     public function addChild(XmlElementInterface $child)
     {
         $this->childs[] = $child;
+        $child->_item = $this;
     }
 }

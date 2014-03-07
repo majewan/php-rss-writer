@@ -26,6 +26,8 @@ class Channel implements \Suin\RSSWriter\ChannelInterface
 	/** @var \Suin\RSSWriter\XmlElemenTInterface[] */
 	protected $items = array();
 
+  public $_feed;
+
 	/**
 	 * Set channel title
 	 * @param string $title
@@ -139,6 +141,7 @@ class Channel implements \Suin\RSSWriter\ChannelInterface
 	public function appendTo(FeedInterface $feed)
 	{
 		$feed->addChannel($this);
+    $this->_feed = $feed;
 		return $this;
 	}
 
@@ -151,9 +154,17 @@ class Channel implements \Suin\RSSWriter\ChannelInterface
         $doc = $element->ownerDocument;
         $channel = $doc->createElement('channel');
         $element->appendChild($channel);
-        $channel->appendChild($doc->createElement('title', htmlentities($this->title)));
+        $channel->appendChild($title = $doc->createElement('title'));
         $channel->appendChild($doc->createElement('link', htmlentities($this->url)));
-        $channel->appendChild($doc->createElement('description', htmlentities($this->description)));
+        $channel->appendChild($description = $doc->createElement('description'));
+
+        if($this->_feed->escapeTextWithCDATA){
+          $title->appendChild(new \DOMCdataSection(htmlspecialchars($this->title)));
+          $description->appendChild(new \DOMCdataSection(htmlspecialchars($this->description))); 
+        }else{
+          $title->appendChild(new \DOMText(htmlspecialchars($this->title)));
+          $description->appendChild(new \DOMText(htmlspecialchars($this->description))); 
+        }
 
 		if ( $this->language !== null )
 		{

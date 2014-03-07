@@ -10,6 +10,7 @@ use DOMNode;
 class MediaKeywords implements XmlElementInterface
 {
     private $keywords;
+    public $_item;
 
     public function __construct($keywords)
     {
@@ -22,8 +23,14 @@ class MediaKeywords implements XmlElementInterface
      */
     public function buildXML(DOMNode $element)
     {
-        $element->appendChild(
-            $element->ownerDocument->createElementNS(MediaContent::MEDIA_NAMESPACE, 'media:keywords', htmlspecialchars($this->keywords))
+        $element->appendChild($mediaKeywords = 
+            $element->ownerDocument->createElementNS(MediaContent::MEDIA_NAMESPACE, 'media:keywords')
         );
+
+        if($this->_item->_channel->_feed->escapeTextWithCDATA){
+          $mediaKeywords->appendChild(new \DOMCdataSection(htmlspecialchars($this->keywords)));
+        }else{
+          $mediaKeywords->appendChild(new \DOMText(htmlspecialchars($this->keywords)));
+        }
     }
 }

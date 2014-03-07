@@ -9,7 +9,7 @@ use \Suin\RSSWriter\Channel;
 use \Suin\RSSWriter\Item;
 
 $feed = new Feed();
-
+$feed->escapeTextWithCDATA = true;
 $channel = new Channel();
 $channel
 	->title("Channel Title")
