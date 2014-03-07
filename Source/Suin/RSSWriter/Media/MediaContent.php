@@ -260,7 +260,7 @@ class MediaContent implements XmlElementInterface
         $properties = get_object_vars($this);
         unset($properties['childs']);
         foreach($properties as $name => $value) {
-            if ($value) {
+            if (is_string($value)) {
                 $content->setAttribute($name, htmlspecialchars($value));
             }
         }

@@ -7,9 +7,13 @@ set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__.'/Source');
 use \Suin\RSSWriter\Feed;
 use \Suin\RSSWriter\Channel;
 use \Suin\RSSWriter\Item;
+use \Suin\RSSWriter\Media\MediaContent;
+use \Suin\RSSWriter\Media\MediaKeywords;
+use \Suin\RSSWriter\Media\MediaCategory;
+use \Suin\RSSWriter\Media\MediaRating;
 
 $feed = new Feed();
-$feed->escapeTextWithCDATA = true;
+$feed->escapeTextWithCDATA = false;
 $channel = new Channel();
 $channel
 	->title("Channel Title")
@@ -29,6 +33,7 @@ $item
 	->url('http://blog.example.com/2012/08/21/blog-entry/')
 	->pubDate(strtotime('Tue, 21 Aug 2012 19:50:37 +0900'))
 	->guid('http://blog.example.com/2012/08/21/blog-entry/', true)
+  ->addChild(new MediaKeywords('keyword1,keyword2'))
 	->appendTo($channel);
 
 

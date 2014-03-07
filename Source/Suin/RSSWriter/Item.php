@@ -161,5 +161,6 @@ class Item implements \Suin\RSSWriter\ItemInterface
     {
         $this->childs[] = $child;
         $child->_item = $this;
+        return $this;
     }
 }
